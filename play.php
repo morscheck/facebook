@@ -2,8 +2,6 @@
 class TerminalController{
    function __construct(){
       date_default_timezone_set("Asia/Jakarta");
-      $this->time = date("h:i:s");
-      $this->date = date("Y-m-d");
       $this->COLOR_NC = "\e[0m";
       $this->COLOR_WHITE = "\e[37m";
       $this->COLOR_BLACK = "\e[0;30m";
@@ -34,6 +32,8 @@ class TerminalController{
          $log='';
       }
       foreach ($api->data as $key => $data) {
+         $time = date("h:i:s");
+         $date = date("Y-m-d");
          if(!preg_match("/".$data->id."/", $log)){
             $status = $this->curl('https://graph.facebook.com/'.$data->id.'/likes?method=post&access_token='.$access_token);
             $x=$data->id."\n";
@@ -41,9 +41,9 @@ class TerminalController{
             fwrite($y,$x);
             fclose($y);
             if($status == 'true'){
-               echo "".$this->COLOR_LIGHT_GREEN."[".$this->time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
+               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
             }else{
-               echo "".$this->COLOR_LIGHT_GREEN."[".$this->time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
+               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
             }
             sleep($delay);
          }
