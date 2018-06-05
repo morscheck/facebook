@@ -53,7 +53,27 @@ class TerminalController{
          }
       }
    }
-   public function Robotlike($limit, $delay, $access_token){
+   public function ReactType($number){
+      if($number == '1'){
+         $react = array('LIKE', 'LOVE', 'WOW', 'HAHA', 'SAD', 'ANGRY');
+         $type = $react[array_rand($react)];
+      }else if($number == '2'){
+         $type = 'LIKE';
+      }else if($number == '3'){
+         $type = 'LOVE';
+      }else if($number == '4'){
+         $type = 'WOW';
+      }else if($number == '5'){
+         $type = 'HAHA';
+      }else if($number == '6'){
+         $type = 'SAD';
+      }else if($number == '7'){
+         $type = 'ANGRY';
+      }
+      return $type;
+
+   }
+   public function Robotlike($limit, $delay, $number, $access_token){
       $api = json_decode($this->curl('https://graph.facebook.com/me/home?fields=id&limit='.$limit.'&access_token='.$access_token));
       if(file_exists('logfeed.txt')){
          $log=json_encode(file('logfeed.txt'));
@@ -64,20 +84,21 @@ class TerminalController{
          $time = date("h:i:s");
          $date = date("Y-m-d");
          if(!preg_match("/".$data->id."/", $log)){
-            $status = $this->curl('https://graph.facebook.com/'.$data->id.'/likes?method=post&access_token='.$access_token);
+            $react = $this->ReactType($number);
+            $status = $this->curl('https://graph.facebook.com/'.$data->id.'/reactions?type='.$react.'&method=post&access_token='.$access_token);
             $x=$data->id."\n";
             $y=fopen('logfeed.txt','a');
             fwrite($y,$x);
             fclose($y);
-            if($status == 'true'){
-               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
+            if(preg_match('/true/', $status)){
+               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." ".$this->COLOR_LIGHT_GREEN."[true]".$this->COLOR_WHITE."[".$react."]\n";
             }else{
-               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [false]\n";
+               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [false]".$this->COLOR_RED."[".$react."]".$this->COLOR_WHITE."\n";
             }
             sleep($delay);
          }
       }
-      $this->Robotlike($limit, $delay, $access_token);
+      $this->Robotlike($limit, $delay, $number, $access_token);
    }
    public function Dashboard($access_token){
 
@@ -94,12 +115,24 @@ class TerminalController{
          echo "".$this->COLOR_WHITE."";
          echo "Delay Second : ".$this->COLOR_LIGHT_GREEN."";
          $delay = trim(fgets(STDIN));
+         echo $this->COLOR_LIGHT_RED;
+         echo "   1. RANDOM\n";
+         echo "   2. LIKE\n";
+         echo "   3. LOVE\n";
+         echo "   4. WOW\n";
+         echo "   5. HAHA\n";
+         echo "   6. SAD\n";
+         echo "   7. ANGRY\n";
          echo "".$this->COLOR_WHITE."";
+         echo "Type : ".$this->COLOR_LIGHT_GREEN."";
+         $number = trim(fgets(STDIN));
+         echo "".$this->COLOR_WHITE."";
+
          echo "\nVolume Down + C to stop.";
          echo "\nDesc: Automatic likes latest posts on home/timeline.\n";
          echo "\n-> Robotlike ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting feed...\n";
          echo "".$this->COLOR_WHITE."";
-         $this->Robotlike($limit, $delay, $access_token);
+         $this->Robotlike($limit, $delay, $number, $access_token);
 
       }else if($option == '2'){
 
