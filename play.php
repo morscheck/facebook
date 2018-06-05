@@ -37,9 +37,9 @@ class TerminalController{
          $uid = @$cekUser->id;
          if(!$gender == null){
             if($gender == $genderOption){
-               $a = $a + 1;
                $status = $this->curl('https://graph.facebook.com/'.$uid.'/pokes?method=post&access_token='.$access_token);
                if($status == 'true'){
+                  $a = $a + 1;
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][".$status."]\n";
                }else{
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][false]\n";
