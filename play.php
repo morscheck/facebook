@@ -108,7 +108,7 @@ class TerminalController{
          echo "Delay Second : ".$this->COLOR_LIGHT_GREEN."";
          $delay = trim(fgets(STDIN));
          echo "".$this->COLOR_WHITE."";
-         echo "Gender (male/female) : ".$this->COLOR_LIGHT_GREEN."";
+         echo "Gender ".$this->COLOR_LIGHT_RED."(male/female) ".$this->COLOR_WHITE.": ".$this->COLOR_LIGHT_GREEN."";
          $genderOption = trim(fgets(STDIN));
          echo "".$this->COLOR_WHITE."";
          echo "\nVolume Down + C to stop.\n";
