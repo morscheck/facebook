@@ -24,6 +24,34 @@ class TerminalController{
       $this->api_key = '3e7c78e35a76a9299309885393b02d97';
       $this->base = 'https://api.facebook.com/restserver.php';
    }
+   public function PokeUserOnline($limit, $delay, $genderOption, $access_token){
+      $api = json_decode($this->curl('https://graph.facebook.com/fql?q=SELECT%20name,%20uid%20FROM%20user%20WHERE%20online_presence%20IN%20(%27active%27)%20AND%20uid%20IN%20(SELECT%20uid2%20FROM%20friend%20WHERE%20uid1%20=me())&access_token='.$access_token));
+      foreach ($api->data as $key => $data) {
+         $time = date("h:i:s");
+         $date = date("Y-m-d");
+         $name = $data->name;
+         $uid = number_format($data->uid,0,"","");
+         $cekUser = json_decode($this->curl('https://graph.facebook.com/'.$uid.'?fields=gender&access_token='.$access_token));
+         $gender = @$cekUser->gender;
+         $uid = @$cekUser->id;
+         if(!$gender == null){
+            if($gender == $genderOption){
+               $status = $this->curl('https://graph.facebook.com/'.$uid.'/pokes?method=post&access_token='.$access_token);
+               if($status == 'true'){
+                  echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][".$status."]\n";
+               }else{
+                  echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][false]\n";
+               }
+               sleep($delay);
+            }
+         }
+         if($key > $limit){
+            echo "".$this->COLOR_LIGHT_GREEN."[".$time."] Proccess complete.".$this->COLOR_WHITE."\n";
+            die();
+         }
+      }
+
+   }
    public function Robotlike($limit, $delay, $access_token){
       $api = json_decode($this->curl('https://graph.facebook.com/me/home?fields=id&limit='.$limit.'&access_token='.$access_token));
       if(file_exists('logfeed.txt')){
@@ -43,7 +71,7 @@ class TerminalController{
             if($status == 'true'){
                echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
             }else{
-               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [".$status."]\n";
+               echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." ".$data->id." [false]\n";
             }
             sleep($delay);
          }
@@ -51,12 +79,15 @@ class TerminalController{
       $this->Robotlike($limit, $delay, $access_token);
    }
    public function Dashboard($access_token){
+
       echo "-> 1. ".$this->COLOR_LIGHT_GREEN."Robotlike Timeline ".$this->COLOR_ORANGE."(Automatic like on timeline)".$this->COLOR_WHITE."\n";
-      //echo "-> 2. ".$this->COLOR_LIGHT_GREEN."Autopoke Friends ".$this->COLOR_ORANGE."(Automatic poke all friends)".$this->COLOR_WHITE."\n";
+      echo "-> 2. ".$this->COLOR_LIGHT_GREEN."Autopoke Friends ".$this->COLOR_ORANGE."(Automatic poke all friends)".$this->COLOR_WHITE."\n";
+
       echo "Select option : ".$this->COLOR_LIGHT_GREEN."";
       $option = trim(fgets(STDIN));
       echo "".$this->COLOR_WHITE."";
       if($option == '1'){
+
          echo "\nLimit Feed : ".$this->COLOR_LIGHT_GREEN."";
          $limit = trim(fgets(STDIN));
          echo "".$this->COLOR_WHITE."";
@@ -67,6 +98,23 @@ class TerminalController{
          echo "\n-> Robotlike ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting feed...\n";
          echo "".$this->COLOR_WHITE."";
          $this->Robotlike($limit, $delay, $access_token);
+
+      }if else($option == '2'){
+
+         echo "\nLimit User : ".$this->COLOR_LIGHT_GREEN."";
+         $limit = trim(fgets(STDIN));
+         echo "".$this->COLOR_WHITE."";
+         echo "Delay Second : ".$this->COLOR_LIGHT_GREEN."";
+         $delay = trim(fgets(STDIN));
+         echo "".$this->COLOR_WHITE."";
+         echo "Gender (male/female) : ".$this->COLOR_LIGHT_GREEN."";
+         $genderOption = trim(fgets(STDIN));
+         echo "".$this->COLOR_WHITE."";
+         echo "\nVolume Down + C to stop.\n";
+         echo "\n-> Pokes user ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting user online...\n";
+         echo "".$this->COLOR_WHITE."";
+         $this->PokeUserOnline($limit, $delay, $genderOption, $access_token)
+
       }else{
          $this->Dashboard($access_token);
       }
@@ -113,8 +161,8 @@ class TerminalController{
          echo "Account info!\n";
          echo "---------------------------------------------\n";
          echo "".$this->COLOR_WHITE."UserID : ".$this->COLOR_ORANGE."".$cekUser->id."".$this->COLOR_WHITE."\n";
-         echo "".$this->COLOR_WHITE."Username : ".$this->COLOR_ORANGE."".$cekUser->name."".$this->COLOR_WHITE."\n";
-         echo "".$this->COLOR_WHITE."Name : ".$this->COLOR_ORANGE."".$cekUser->username."".$this->COLOR_WHITE."\n";
+         echo "".$this->COLOR_WHITE."Username : ".$this->COLOR_ORANGE."".$cekUser->username."".$this->COLOR_WHITE."\n";
+         echo "".$this->COLOR_WHITE."Name : ".$this->COLOR_ORANGE."".$cekUser->name."".$this->COLOR_WHITE."\n";
          echo "---------------------------------------------\n";
          $this->Dashboard($data->access_token);
       }
@@ -177,4 +225,4 @@ class TerminalController{
    }
 }
 $open = new TerminalController();
-echo $open->MenuLogin();
+echo $open->PokeUserOnline(0, 'female', 'EAAAAAYsX7TsBAMgcedADNGBDDK3mO94mfsyyygcuyDz3ZACayUq7clo5f0r01VKtjoXkyShRiXje9wWlazyy4GsomItfSeLTyfCthaOu7SoirzSlnn8rYhBPM1FcYxu5F6ukgU1k5d1J3saU9LOeaN4m1ny4QnwFFk2P1DQgPIFkZA5aUPNSiJUQe0ErCUFZCRQugWS3gZDZD');
