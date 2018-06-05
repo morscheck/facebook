@@ -96,6 +96,7 @@ class TerminalController{
          $delay = trim(fgets(STDIN));
          echo "".$this->COLOR_WHITE."";
          echo "\nVolume Down + C to stop.\n";
+         echo "\nDesc: Automatic likes latest posts on home/timeline.\n";
          echo "\n-> Robotlike ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting feed...\n";
          echo "".$this->COLOR_WHITE."";
          $this->Robotlike($limit, $delay, $access_token);
@@ -112,6 +113,7 @@ class TerminalController{
          $genderOption = trim(fgets(STDIN));
          echo "".$this->COLOR_WHITE."";
          echo "\nVolume Down + C to stop.\n";
+         echo "\nDesc: User Limit only counts successful pokes.\n";
          echo "\n-> Pokes user ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting user online...\n";
          echo "".$this->COLOR_WHITE."";
          $this->PokeUserOnline($limit, $delay, $genderOption, $access_token);
