@@ -113,7 +113,7 @@ class TerminalController{
          echo "\nVolume Down + C to stop.\n";
          echo "\n-> Pokes user ".$this->COLOR_LIGHT_GREEN."running!\n".$this->COLOR_ORANGE."Please wait collecting user online...\n";
          echo "".$this->COLOR_WHITE."";
-         $this->PokeUserOnline($limit, $delay, $genderOption, $access_token)
+         $this->PokeUserOnline($limit, $delay, $genderOption, $access_token);
 
       }else{
          $this->Dashboard($access_token);
