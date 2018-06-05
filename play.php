@@ -45,8 +45,9 @@ class TerminalController{
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][false]\n";
                }
                sleep($delay);
-               if($a > $limit){
+               if($a >= $limit){
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."] Proccess complete.".$this->COLOR_WHITE."\n";
+                  die($this->Dashboard());
                }
             }
          }
