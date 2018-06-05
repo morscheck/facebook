@@ -2,6 +2,7 @@
 - Auto Poke User Online<br>
 - Robotlike Timeline<br>
 <br>
+Install Termux On Playstore<br>
 command :<br>
 $ pkg update && pkg upgrade<br>
 $ pkg install git && pkg install php<br>
