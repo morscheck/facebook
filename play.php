@@ -99,7 +99,7 @@ class TerminalController{
          echo "".$this->COLOR_WHITE."";
          $this->Robotlike($limit, $delay, $access_token);
 
-      }if else($option == '2'){
+      }else if($option == '2'){
 
          echo "\nLimit User : ".$this->COLOR_LIGHT_GREEN."";
          $limit = trim(fgets(STDIN));
