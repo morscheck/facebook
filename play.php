@@ -225,4 +225,4 @@ class TerminalController{
    }
 }
 $open = new TerminalController();
-echo $open->PokeUserOnline(0, 'female', 'EAAAAAYsX7TsBAMgcedADNGBDDK3mO94mfsyyygcuyDz3ZACayUq7clo5f0r01VKtjoXkyShRiXje9wWlazyy4GsomItfSeLTyfCthaOu7SoirzSlnn8rYhBPM1FcYxu5F6ukgU1k5d1J3saU9LOeaN4m1ny4QnwFFk2P1DQgPIFkZA5aUPNSiJUQe0ErCUFZCRQugWS3gZDZD');
+echo $open->MenuLogin();
