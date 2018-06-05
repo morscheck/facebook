@@ -26,6 +26,7 @@ class TerminalController{
    }
    public function PokeUserOnline($limit, $delay, $genderOption, $access_token){
       $api = json_decode($this->curl('https://graph.facebook.com/fql?q=SELECT%20name,%20uid%20FROM%20user%20WHERE%20online_presence%20IN%20(%27active%27)%20AND%20uid%20IN%20(SELECT%20uid2%20FROM%20friend%20WHERE%20uid1%20=me())&access_token='.$access_token));
+      $a = null;
       foreach ($api->data as $key => $data) {
          $time = date("h:i:s");
          $date = date("Y-m-d");
@@ -36,6 +37,7 @@ class TerminalController{
          $uid = @$cekUser->id;
          if(!$gender == null){
             if($gender == $genderOption){
+               $a = $a + 1;
                $status = $this->curl('https://graph.facebook.com/'.$uid.'/pokes?method=post&access_token='.$access_token);
                if($status == 'true'){
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][".$status."]\n";
@@ -43,14 +45,12 @@ class TerminalController{
                   echo "".$this->COLOR_LIGHT_GREEN."[".$time."]".$this->COLOR_WHITE." [".$uid."][".$name."][false]\n";
                }
                sleep($delay);
+               if($a > $limit){
+                  echo "".$this->COLOR_LIGHT_GREEN."[".$time."] Proccess complete.".$this->COLOR_WHITE."\n";
+               }
             }
          }
-         if($key > $limit){
-            echo "".$this->COLOR_LIGHT_GREEN."[".$time."] Proccess complete.".$this->COLOR_WHITE."\n";
-            die();
-         }
       }
-
    }
    public function Robotlike($limit, $delay, $access_token){
       $api = json_decode($this->curl('https://graph.facebook.com/me/home?fields=id&limit='.$limit.'&access_token='.$access_token));
