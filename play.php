@@ -81,8 +81,8 @@ class TerminalController{
    }
    public function Dashboard($access_token){
 
-      echo "-> 1. ".$this->COLOR_LIGHT_GREEN."Robotlike Timeline ".$this->COLOR_ORANGE."(Automatic like on timeline)".$this->COLOR_WHITE."\n";
-      echo "-> 2. ".$this->COLOR_LIGHT_GREEN."Autopoke Friends ".$this->COLOR_ORANGE."(Automatic poke all friends)".$this->COLOR_WHITE."\n";
+      echo "-> 1. ".$this->COLOR_LIGHT_GREEN."Robotlike Timeline".$this->COLOR_WHITE."\n";
+      echo "-> 2. ".$this->COLOR_LIGHT_GREEN."Autopoke User Online".$this->COLOR_WHITE."\n";
 
       echo "Select option : ".$this->COLOR_LIGHT_GREEN."";
       $option = trim(fgets(STDIN));
