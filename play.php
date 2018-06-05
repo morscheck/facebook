@@ -124,7 +124,7 @@ class TerminalController{
    }
    public function MenuLogin(){
       echo "---------------------------------------------\n";
-      echo "".$this->COLOR_YELLOW."Facebook".$this->COLOR_WHITE." Robotlike\n";
+      echo "".$this->COLOR_YELLOW."Facebook".$this->COLOR_WHITE." Tools\n";
       echo "Copyright © 2018 ".$this->COLOR_BLUE."Ramadhani Pratama".$this->COLOR_WHITE."\n";
       echo "---------------------------------------------\n";
       echo "".$this->COLOR_LIGHT_GREEN."Userame : ".$this->COLOR_WHITE;
